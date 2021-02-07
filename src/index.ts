@@ -24,7 +24,7 @@ rp.style.background = "transition"
 rp.style.border = "0px solid red"
 rp.style.borderRadius = "50%"
 rp.style.transform = "translate(0, 0)"
-rp.style.transition="transform 0s, width 0.3s, height 0.3s, top 0.3s, left 0.3s"
+rp.style.transition = "transform 0s, width 0.3s, height 0.3s, top 0.3s, left 0.3s"
 rp.style.transitionTimingFunction = "ease-out"
 rp.style.zIndex = "1000"
 
@@ -43,14 +43,13 @@ window.onload = () => {
   document.body.appendChild(rp)
 
   document.addEventListener("mouseover", (e: any) => {
-    const re = [...e.target.attributes].some(a=> a.name === 'data-test');
+    const re = [...e.target.attributes].some(a => a.name === 'data-test');
     if (re) {
       el.style.display = 'block';
       [...e.target.attributes].map(a => {
         if (a.name === 'data-test') {
           el.innerHTML = a.value
           clipboard = a.value
-          console.log(a.value)
         }
       })
     } else {
@@ -64,22 +63,28 @@ window.onload = () => {
   });
 
   document.addEventListener("keydown", e => {
-    rpSize = 20
-    rp.style.border = "1px solid red"
+    if (e.key === 'Escape') {
+      copy()
+    }
+  })
+}
+
+const copy = () => {
+  rpSize = 20
+  rp.style.border = "1px solid red"
+  rp.style.top = `-${rpSize}px`
+  rp.style.left = `-${rpSize}px`
+  rp.style.height = `${rpSize * 2}px`
+  rp.style.width = `${rpSize * 2}px`
+  el.style.display = 'block'
+  copyTextToClipboard(clipboard)
+  setTimeout(() => {
+    rpSize = 0
+    rp.style.border = "0px solid red"
     rp.style.top = `-${rpSize}px`
     rp.style.left = `-${rpSize}px`
     rp.style.height = `${rpSize * 2}px`
     rp.style.width = `${rpSize * 2}px`
-    el.style.display = 'block'
-    copyTextToClipboard(clipboard)
-    setTimeout(()=>{
-      rpSize = 0
-      rp.style.border = "0px solid red"
-      rp.style.top = `-${rpSize}px`
-      rp.style.left = `-${rpSize}px`
-      rp.style.height = `${rpSize * 2}px`
-      rp.style.width = `${rpSize * 2}px`
-      el.style.display = 'none'
-    }, 500)
-  })
+    el.style.display = 'none'
+  }, 500)
 }
